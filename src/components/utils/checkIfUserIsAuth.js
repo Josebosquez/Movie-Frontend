@@ -23,3 +23,6 @@ const checkIfUserIsAuth = () => {
 };
 
 export default checkIfUserIsAuth;
+
+
+// This page is a helper function to be used in other pages. We use this to verify if we are signed in or signed out based on if our jwt token is valid. If its not, we are or are not allowed to visit certain pages.

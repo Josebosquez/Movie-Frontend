@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode";
+import { ToastContainer } from "react-toastify"; // brings in toast
+import jwtDecode from "jwt-decode"; // brings in jwt token 
 
 import MainRouter from "./MainRouter";
 
@@ -12,14 +12,15 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    let getJwtToken = window.localStorage.getItem("jwtToken");
+    let getJwtToken = window.localStorage.getItem("jwtToken"); // searches local storage for our jwt token
 
     if (getJwtToken) {
-      const currentTime = Date.now() / 1000;
+      const currentTime = Date.now() / 1000; // grabs computers current time.
+      // if current time is greater than the expired time, then the token is no longer valid.
 
-      let decodedJWTToken = jwtDecode(getJwtToken);
+      let decodedJWTToken = jwtDecode(getJwtToken); // bring in jwt decode to decode our jwt token for login/logout purposes or when refreshing the page.
 
-      if (decodedJWTToken.exp < currentTime) {
+      if (decodedJWTToken.exp < currentTime) { // if the decodedJWTToken expiration time is less than the current time, log me out. else log me in so when i refresh, ill be able to stay logged in.
         //logout
         this.handleUserLogout();
       } else {
@@ -35,30 +36,30 @@ export class App extends Component {
     }
   }
 
-  handleUserLogin = (user) => {
+  handleUserLogin = (user) => { // handles our user login function. sets the user to have our user.email
     this.setState({
       user: {
-        email: user.email,
+        email: user.email, 
       },
     });
   };
 
   handleUserLogout = () => {
-    window.localStorage.removeItem("jwtToken");
+    window.localStorage.removeItem("jwtToken"); // remove the jwt token
     this.setState({
-      user: null,
+      user: null, // resets our user back to null instead of our email.
     });
   };
 
   render() {
     return (
       <>
-        <ToastContainer position="top-center" />
+        <ToastContainer position="top-center" /> {/* brings in our toast err block message*/}
 
         <MainRouter
-          user={this.state.user}
-          handleUserLogin={this.handleUserLogin}
-          handleUserLogout={this.handleUserLogout}
+          user={this.state.user} // allows us to use this variable as a child
+          handleUserLogin={this.handleUserLogin} // allows us to use this function as a child
+          handleUserLogout={this.handleUserLogout} // allows us to use this function as a child
         />
       </>
     );

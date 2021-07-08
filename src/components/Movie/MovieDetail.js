@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 
 export class MovieDetail extends Component {
-  state = {
+  state = { // what we are posting in our movie detail page info that gets rendered.
     Actors: "",
     Awards: "",
     Country: "",
@@ -12,16 +12,16 @@ export class MovieDetail extends Component {
     Ratings: [],
     Title: "",
     imdbID: "",
-    isLoading: true,
+    isLoading: true, // if we dont have anything being pulled in our get req, show is loading because we dont have it set up correctly.
   };
 
-  async componentDidMount() {
+  async componentDidMount() { //  makes a get req based on our api key and what we are searching for based on our match.params.movietitle.
     try {
-      let result = await axios.get(
+      let result = await axios.get( //apikey should not be hardcoded
         `https://omdbapi.com/?apikey=6332b1e1&t=${this.props.match.params.movieTitle}`
       );
 
-      this.setState({
+      this.setState({ // we then pull the results data for what we want in our state to render.
         Actors: result.data.Actors,
         Awards: result.data.Awards,
         Country: result.data.Country,
@@ -40,7 +40,7 @@ export class MovieDetail extends Component {
     }
   }
 
-  showMovieDetail = () => {
+  showMovieDetail = () => {  // this function sets up for the render to show the information from our state. 
     return (
       <div style={{ display: "flex" }}>
         <div>
@@ -55,7 +55,7 @@ export class MovieDetail extends Component {
           <div>Rated: {this.state.Rated}</div>
           <div>
             Ratings:{" "}
-            {this.state.Ratings.map((item) => {
+            {this.state.Ratings.map((item) => { // the rating will have more than one set of info, which is why we need to create a map and show all the items.
               return (
                 <span key={item.Source}>
                   {item.Source} {item.Value}
@@ -73,12 +73,12 @@ export class MovieDetail extends Component {
   render() {
     return (
       <div>
-        {this.state.isLoading ? (
+        {this.state.isLoading ? (  // if load is true,
           <div style={{ textAlign: "center", marginTop: "50px" }}>
-            ...Loading
+            ...Loading {/*show loading  */}
           </div>
         ) : (
-          this.showMovieDetail()
+          this.showMovieDetail() // else, shows the state info from our func
         )}
       </div>
     );
